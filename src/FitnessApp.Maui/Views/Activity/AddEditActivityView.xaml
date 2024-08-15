@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitnessApp.Maui.Views.Activity.AddEditActivityView"
+             xmlns:local="clr-namespace:FitnessApp.Maui.ViewModels.Activity"
+             x:DataType="local:AddEditActivityViewModel"
+             Title="{Binding Title}">
+    <ScrollView Padding="20"
+                VerticalOptions="Start">
+        <StackLayout Spacing="12">
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="12">
+                <Label VerticalTextAlignment="Center"
+                       Text="Name" />
+                <Entry MinimumWidthRequest="10000"
+                       Text="{Binding Name}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="12">
+                <Label VerticalTextAlignment="Center"
+                       Text="Description" />
+                <Entry MinimumWidthRequest="10000"
+                       Text="{Binding Desctiption}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="12">
+                <Label VerticalTextAlignment="Center"
+                       Text="Date" />
+                <DatePicker MinimumWidthRequest="10000"
+                            Date="{Binding StartDate}" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="12">
+                <Label VerticalTextAlignment="Center"
+                       Text="Time" />
+                <TimePicker MinimumWidthRequest="10000"
+                            Time="{Binding StartTime}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="12">
+                <Label VerticalTextAlignment="Center"
+                       Text="Activity" />
+                <Picker ItemsSource="{Binding AllActivities}"
+                        ItemDisplayBinding="{Binding Title}"
+                        MinimumWidthRequest="10000"
+                        SelectedItem="{Binding ActivityType}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="12">
+                <Label VerticalTextAlignment="Center"
+                       Text="Duration" />
+                <Entry MinimumWidthRequest="10000"
+                       Text="{Binding Duration}"
+                       Placeholder="in minutes" />
+            </StackLayout>
+            <Button IsVisible="{Binding IsEditPage, Converter={StaticResource InvertedBoolConverter}}"
+                    MinimumWidthRequest="10000"
+                    Text="Add"
+                    Command="{Binding AddActivityCommand}" />
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="16"
+                  RowDefinitions="*"
+                  IsVisible="{Binding IsEditPage}">
+                <Button Grid.Row="0"
+                        Grid.Column="1"
+                        Text="Update"
+                        Command="{Binding UpdateActivityCommand}" />
+                <Button Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Delete"
+                        BackgroundColor="Red"
+                        Command="{Binding DeleteActivityCommand}" />
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

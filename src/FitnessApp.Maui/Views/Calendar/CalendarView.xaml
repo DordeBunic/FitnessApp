@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+             xmlns:local="clr-namespace:FitnessApp.Maui.Controls"
+             x:Class="FitnessApp.Maui.Views.Calendar.CalendarView"
+             xmlns:viewmodel="clr-namespace:FitnessApp.Maui.ViewModels.Calendar"
+             xmlns:activities="clr-namespace:FitnessApp.Models.Domain.Activity;assembly=FitnessApp.Models"
+             x:DataType="viewmodel:CalendarViewModel">
+
+    <controls:Calendar Padding="16"
+                       CalendarLayout="Month" 
+                       WeekViewUnit="MonthName" 
+                       Events="{Binding Events}" 
+                       EventsScrollViewVisible="True"
+                       ArrowsFontFamily="FontAwesomeSolid" 
+                       EventIndicatorType="BackgroundFull"
+                       EventIndicatorColor="Red" 
+                       DeselectedDayTextColor="Black" 
+                       SelectedDayTextColor="Black"
+                       EventIndicatorSelectedTextColor="White" 
+                       TodayFillColor="Transparent"
+                       TodayOutlineColor="Transparent"
+                       SelectedTodayTextColor="Black"
+                       EventIndicatorSelectedColor ="DimGrey"
+                       FooterSectionVisible="False"
+                       DisableSwipeDetection="True">
+        <controls:Calendar.HeaderSectionTemplate>
+            <local:CalendarHeader/>
+        </controls:Calendar.HeaderSectionTemplate>
+        <controls:Calendar.EventTemplate>
+            <DataTemplate x:DataType="activities:Activity">
+                <SwipeView>
+                    <SwipeView.RightItems>
+                        <SwipeItems>
+                            <SwipeItem Text="Edit" 
+                                       BackgroundColor="#512bd4" 
+                                       CommandParameter="{Binding .}" 
+                                       Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:CalendarViewModel}}, Path=GoToDetailsCommand}" />
+                            <SwipeItem Text="Delete" 
+                                       BackgroundColor="Red" 
+                                       CommandParameter="{Binding .}" 
+                                       Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:CalendarViewModel}}, Path=DeleteActivityFromListCommand}"/>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+                    <Border Padding="8" 
+                            Margin="0,0,0,8" 
+                            BackgroundColor="White">
+                        <Grid ColumnDefinitions="*, Auto" 
+                              RowDefinitions="Auto,Auto,Auto,Auto">
+                            <Label Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Text="{Binding Title}"/>
+                            
+                            <Label Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Grid.ColumnSpan="2" 
+                                   Text="{Binding Description}" />
+                            
+                            <Label Grid.Row="0" 
+                                   Grid.Column="1" 
+                                   Text="{Binding ActivityType.Title}"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Grid.Column="0" 
+                                   Text="{Binding StartTime, StringFormat='{0:d.M.yyyy}'}"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Grid.Column="0" 
+                                   Text="{Binding StartTime, 
+                                StringFormat='{0:HH:mm}'}"/>
+                            
+                            <Label Grid.Row="2" 
+                                   Grid.Column="1" 
+                                   Text="{Binding EndTime, StringFormat='{0:d.M.yyyy}'}"/>
+                            
+                            <Label Grid.Row="3" 
+                                   Grid.Column="1" 
+                                   Text="{Binding EndTime, StringFormat='{0:HH:mm}'}"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewmodel:CalendarViewModel}}, Path=GoToDetailsCommand}" 
+                                                      CommandParameter="{Binding .}"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Border>
+                </SwipeView>
+            </DataTemplate>
+        </controls:Calendar.EventTemplate>
+    </controls:Calendar>
+</ContentPage>

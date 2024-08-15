@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitnessApp.Maui.Views.User.UserView"
+             xmlns:local="clr-namespace:FitnessApp.Maui.ViewModels.User"
+             xmlns:goaltype="clr-namespace:FitnessApp.Models.Domain.User;assembly=FitnessApp.Models"
+             x:DataType="local:UserViewModel"
+             Title="{Binding FullName, StringFormat='Hello, {0}'}"
+             Padding="8">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Log Out"
+                     Command="{Binding LogOutCommand}" />
+    </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto"
+          ColumnDefinitions="*, *"
+          RowSpacing="16"
+          RadioButtonGroup.GroupName="Type">
+        <Label Text="Set Goal"
+               Grid.ColumnSpan="2"
+               FontSize="Large"
+               HorizontalOptions="Center" />
+        <RadioButton Content="Number Of Activities"
+                     HorizontalOptions="Center"
+                     Value="1"
+                     GroupName="Type"
+                     Grid.Column="0"
+                     Grid.Row="1"
+                     IsChecked="{Binding NumberOfActivitySelected}" />
+        <RadioButton Content="Activity Length in min"
+                     HorizontalOptions="Center"
+                     Value="1"
+                     GroupName="Type"
+                     Grid.Column="1"
+                     Grid.Row="1"
+                     IsChecked="{Binding NumberOfActivitySelected, Converter={StaticResource InvertedBoolConverter}}" />
+        <Entry Placeholder="Value"
+               Grid.Row="2"
+               Grid.ColumnSpan="2"
+               Text="{Binding Value}" />
+        <Button Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Text="Save"
+                Command="{Binding SaveGoalCommand}" />
+    </Grid>
+</ContentPage>  
